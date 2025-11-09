@@ -1,7 +1,7 @@
 import boto3
 import streamlit as st
-from langchain_aws import BedrockEmbeddings
-from langchain_aws import ChatBedrock
+from langchain_community.embeddings import BedrockEmbeddings
+from langchain_community.chat_models import ChatBedrock
 from langchain.document_loaders import PyPDFDirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import FAISS
