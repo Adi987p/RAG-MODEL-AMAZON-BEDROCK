@@ -70,18 +70,22 @@ PROMPT = PromptTemplate(
 
 
 
-def get_response_llm(vectorstore_faiss,llm):
-    retriever = vectorstore_faiss.as_retriever(
-        search_kwargs={"k": 3}
-    )
+from langchain_core.runnables import RunnableLambda
+
+def get_response_llm(vectorstore_faiss, llm):
+    retriever = vectorstore_faiss.as_retriever(search_kwargs={"k": 3})
 
     rag_chain = (
-        {"context": retriever, "question": RunnablePassthrough()}
+        {
+            "context": RunnableLambda(lambda x: x["question"]) | retriever,
+            "question": RunnablePassthrough()
+        }
         | PROMPT
         | llm
     )
 
     return rag_chain
+
 
 def get_answer(query, vectorstore_faiss):
     llm = get_llm()
