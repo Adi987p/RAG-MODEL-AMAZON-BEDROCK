@@ -7,6 +7,10 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PDF_PATH = os.path.join(BASE_DIR, "pdf-data")
 
 
 prompt_template = """
@@ -33,7 +37,7 @@ bedrock_embeddings=BedrockEmbeddings(model_id="amazon.titan-embed-text-v1",clien
 
 
 def get_documents():
-    loader=PyPDFDirectoryLoader("pdf-data")
+    loader=PyPDFDirectoryLoader(PDF_PATH)
     documents=loader.load()
     text_splitter=RecursiveCharacterTextSplitter(chunk_size=1000,
                                                  chunk_overlap=500)
