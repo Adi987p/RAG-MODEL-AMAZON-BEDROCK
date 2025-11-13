@@ -105,10 +105,11 @@ def main():
                 st.success("Done")
         
        if st.button("Send"):
-            with st.spinner("Processing..."):
+           with st.spinner("Processing..."):
                 faiss_index = FAISS.load_local("faiss_index", bedrock_embeddings, allow_dangerous_deserialization=True)
                 answer = get_answer(user_question, faiss_index)
                 st.write(answer)
+
 
 
 
