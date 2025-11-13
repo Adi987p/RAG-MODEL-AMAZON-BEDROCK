@@ -6,7 +6,7 @@ from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import PromptTemplate
-from langchain_community.chains import RetrievalQA
+from langchain_core.runnables import RunnablePassthrough
 
 
 prompt_template = """
@@ -66,20 +66,24 @@ PROMPT = PromptTemplate(
 
 
 
-def get_response_llm(llm,vectorstore_faiss,query):
-    qa = RetrievalQA.from_chain_type(
-    llm=llm,
-    chain_type="stuff",
-    retriever=vectorstore_faiss.as_retriever(
-        search_type="similarity", search_kwargs={"k": 3}
-    ),
-    return_source_documents=True,
-    chain_type_kwargs={"prompt": PROMPT}
-)
-    answer=qa({"query":query})
-    return answer['result']
+def get_response_llm(vectorstore_faiss,llm):
+    retriever = vectorstore_faiss.as_retriever(
+        search_kwargs={"k": 3}
+    )
 
+    rag_chain = (
+        {"context": retriever, "question": RunnablePassthrough()}
+        | PROMPT
+        | llm
+    )
 
+    return rag_chain
+
+def get_answer(query, vectorstore_faiss):
+    llm = get_llm()
+    rag_chain = get_response_llm(vectorstore_faiss, llm)
+    result = rag_chain.invoke({"question": query})
+    return result
 
 def main():
     st.set_page_config("RAG Demo")
