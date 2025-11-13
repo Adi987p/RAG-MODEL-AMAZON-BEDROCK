@@ -104,11 +104,12 @@ def main():
                 get_vector_store(docs)
                 st.success("Done")
         
-        if st.button("Send"):
+       if st.button("Send"):
             with st.spinner("Processing..."):
                 faiss_index = FAISS.load_local("faiss_index", bedrock_embeddings, allow_dangerous_deserialization=True)
-                llm = get_llm()
-                st.write(get_response_llm(llm,faiss_index,user_question))
+                answer = get_answer(user_question, faiss_index)
+                st.write(answer)
+
 
 
 
