@@ -38,4 +38,4 @@ streamlit run research/bedrock_trials.py
 streamlit run main.py
 ```
 
-
+https://ap-genai-project-bedrock.streamlit.app/
