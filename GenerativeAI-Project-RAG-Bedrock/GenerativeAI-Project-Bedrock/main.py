@@ -91,7 +91,7 @@ def get_answer(query, vectorstore_faiss):
     llm = get_llm()
     rag_chain = get_response_llm(vectorstore_faiss, llm)
     result = rag_chain.invoke({"question": query})
-   return result["content"]
+    return result["content"]
 
 
 def main():
