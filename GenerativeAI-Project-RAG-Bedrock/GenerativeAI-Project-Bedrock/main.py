@@ -6,7 +6,7 @@ from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import PromptTemplate
-from langchain.chains import RetrievalQA
+from langchain.chains.retrieval import RetrievalQA
 
 
 prompt_template = """
