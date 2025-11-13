@@ -1,8 +1,9 @@
-langchain
-langchain-community
-pypdf
-botocore
 streamlit
-faiss-cpu
 boto3
+langchain
 langchain-aws
+langchain-community
+langchain-core
+langchain-text-splitters
+pypdf
+faiss-cpu
